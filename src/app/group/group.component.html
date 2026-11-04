@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="content">
+                <div class="products">
+                    <div class="tg-productgrid grid row">
+                        <div class="tg-sectionhead py-5">
+                            <p>Group</p>
+                            <h2>{{categories[0].group.name}}</h2>
+                        </div>
+                        <div class="col-md-3 col-sm-6 my-1 mb-3" *ngFor="let category of categories">
+                            <div class="bg-light feature-categories custom-select-box p-4 d-flex justify-content-start align-items-end"
+                                style="background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://cwdaust.com.au/wpress/wp-content/uploads/2015/04/placeholder-store.png');">
+                                <div>
+                                    <h3 class="mb-0 fw-bold text-white">{{category.name}}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

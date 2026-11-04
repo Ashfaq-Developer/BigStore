@@ -1,0 +1,294 @@
+<!-- <div class="container">
+    <div class="d-flex justify-content-end my-5">
+        <div class="dropdown">
+            <button class="btn btn-light dropdown-toggle" type="button" id="mainDropdown" data-bs-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Filter
+            </button>
+            <div class="dropdown-menu p-3" aria-labelledby="mainDropdown">
+                <select class="form-select" aria-label="Default select example" (change)="changePerPageOption($event)">
+                    <option selected>Per Page:</option>
+                    <option value="1">10</option>
+                    <option value="2">20</option>
+                    <option value="3">30</option>
+                    <option value="4">50</option>
+                </select>
+                <select class="form-select filter-option my-2" aria-label="select example"
+                    (change)="changeSortByOption($event)">
+                    <option selected disabled>Sort By:</option>
+                    <option value="AtoZ">Name: A to Z</option>
+                    <option value="ZtoA">Name: Z to A</option>
+                    <option value="latest">Latest</option>
+                    <option value="oldest">Oldest</option>
+                </select>
+                <div class="d-grid gap-2 d-flex justify-content-space-between">
+                    <button class="btn btn-light" type="button" (click)="cancelFilter()">Cancel</button>
+                    <button class="btn btn-primary" type="button" (click)="applyFilter()">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="border">
+        <div class="col-6 col-md-3 p-2">
+            <div class="input-group">
+                <input type="search" class="form-control" placeholder="Search" aria-label="Search"
+                    aria-describedby="search-addon" (input)="searchByName($event)" />
+                <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table border align-middle caption-top">
+            <thead>
+                <tr>
+                    <th scope="col">Code</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Sort Order</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Updated At</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="loading">
+                    <td colspan="5" class="text-center">
+                        <div class="spinner-border text-primary text-center" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngFor="let post of filteredPosts;">
+                    <td>{{ post.code }}</td>
+                    <td>
+                        <a class="text-dark text-decoration-none" [routerLink]="['/product', post.id, 'view']">{{
+                            post.name }}</a>
+                        <p>
+                            <span class="badge text-bg-primary me-2">Categories {{ post.numberOfCategories }}</span>
+                            <span class="badge text-bg-dark">Products {{post.numberOfProducts}}</span>
+                        </p>
+                    </td>
+                    <td>{{ post.sortOrder }}</td>
+                    <td>{{ moment(post.createdAt).fromNow() }}</td>
+                    <td>Last updated {{ moment(post.updatedAt).fromNow() }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" [ngClass]="{'disabled': currentPage == 1}">
+                    <a class="page-link" role="button" (click)="previousPage()">Previous</a>
+                </li>
+                <li class="page-item" *ngFor="let page of visiblePageNumbers" [class.active]="page == currentPage">
+                    <a class="page-link cursor-pointer" role="button" (click)="goToPage(page)">{{ page }}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" role="button" [ngClass]="{'disabled': currentPage == this.totalPages}"
+                        (click)="nextPage()">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div> -->
+
+
+<div class="container">
+    <!-- Filter dropdown -->
+    <div class="d-flex justify-content-end my-5">
+        <div class="dropdown">
+            <button
+                class="btn btn-light dropdown-toggle"
+                type="button"
+                id="mainDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Filter
+            </button>
+
+            <div class="dropdown-menu p-3" aria-labelledby="mainDropdown">
+
+                <!-- Products per page -->
+                <select
+                    class="form-select"
+                    (change)="changePerPageOption($event)">
+
+                    <option value="10" selected>10 Per Page</option>
+                    <option value="20">20 Per Page</option>
+                    <option value="30">30 Per Page</option>
+                    <option value="50">50 Per Page</option>
+                </select>
+
+                <!-- Sorting -->
+                <select
+                    class="form-select filter-option my-2"
+                    (change)="changeSortByOption($event)">
+
+                    <option value="" disabled selected>Sort By:</option>
+                    <option value="AtoZ">Name: A to Z</option>
+                    <option value="ZtoA">Name: Z to A</option>
+                    <option value="latest">Latest</option>
+                    <option value="oldest">Oldest</option>
+                </select>
+
+                <div class="d-grid gap-2 d-flex justify-content-between">
+                    <button
+                        class="btn btn-light"
+                        type="button"
+                        (click)="cancelFilter()">
+                        Cancel
+                    </button>
+
+                    <button
+                        class="btn btn-primary"
+                        type="button"
+                        (click)="applyFilter()">
+                        Apply
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Products table -->
+<div class="container">
+
+    <!-- Search -->
+    <div class="border">
+        <div class="col-6 col-md-3 p-2">
+            <div class="input-group">
+                <input
+                    type="search"
+                    class="form-control"
+                    placeholder="Search products"
+                    aria-label="Search"
+                    (input)="searchByName($event)" />
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="table border align-middle caption-top">
+
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <!-- Loading -->
+                <tr *ngIf="loading">
+                    <td colspan="5" class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Products -->
+                <tr *ngFor="let post of paginatedPosts">
+
+                    <td>{{ post.id }}</td>
+
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+
+                            <img
+                                [src]="post.image"
+                                [alt]="post.title"
+                                width="50"
+                                height="50"
+                                style="object-fit: contain;" />
+
+                            <a
+                                class="text-dark text-decoration-none"
+                                [routerLink]="['/product', post.id, 'view']">
+                                {{ post.title }}
+                            </a>
+
+                        </div>
+                    </td>
+
+                    <td>
+                        <span class="badge text-bg-primary">
+                            {{ post.category }}
+                        </span>
+                    </td>
+
+                    <td>{{ post.price | currency }}</td>
+
+                    <td>
+                        {{ post.description | slice:0:80 }}...
+                    </td>
+
+                </tr>
+
+                <!-- No products -->
+                <tr *ngIf="!loading && paginatedPosts.length === 0">
+                    <td colspan="5" class="text-center py-4">
+                        No products found.
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation">
+
+            <ul class="pagination justify-content-center">
+
+                <li
+                    class="page-item"
+                    [class.disabled]="currentPage === 1">
+
+                    <button
+                        class="page-link"
+                        (click)="previousPage()"
+                        [disabled]="currentPage === 1">
+                        Previous
+                    </button>
+
+                </li>
+
+                <li
+                    class="page-item"
+                    *ngFor="let page of visiblePageNumbers"
+                    [class.active]="page === currentPage">
+
+                    <button
+                        class="page-link"
+                        (click)="goToPage(page)">
+                        {{ page }}
+                    </button>
+
+                </li>
+
+                <li
+                    class="page-item"
+                    [class.disabled]="currentPage === totalPages">
+
+                    <button
+                        class="page-link"
+                        (click)="nextPage()"
+                        [disabled]="currentPage === totalPages">
+                        Next
+                    </button>
+
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </div>
+</div>

@@ -1,0 +1,5 @@
+.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.5; /* You can adjust the opacity to visually indicate it's disabled */
+  }

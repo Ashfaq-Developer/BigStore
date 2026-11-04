@@ -1,0 +1,17 @@
+<p #p>parent works!</p>
+<div #element>uncheck</div>
+<div class="btn btn-primary" (click)="onClick()">click</div>
+
+<div class="mx-auto text-center py-5">
+    <img [src]="'https://placehold.co/' + width + 'x' + height" alt="">
+</div>
+
+<div class="form col-3 mx-auto">
+    <label for="width">width</label>
+    <input class="form-control width" type="text" id="" [(ngModel)]="width">
+    <label for="height">height</label>
+    <input class="form-control height" type="text" id="height" [(ngModel)]="height">
+</div>
+
+<div class="btn btn-primary" (click)="getImage()">Get Image</div>
+<!-- <app-child></app-child> -->

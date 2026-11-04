@@ -1,0 +1,21 @@
+<div class="bg-dark text-light" style="height:100vh" #background>
+    <div class="container">
+        <h1 class="text-uppercase text-center py-3">CHOOSE YOUR GAME</h1>
+        <div class="d-flex flex-wrap justify-content-center">
+            <a *ngFor="let item of list" href="javascript:;" class="btn btn-light platforms mx-2 my-2"
+                [ngClass]="{'active': item.type == type }" (click)="selectTab(item.type)">{{item.title}}
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="image-tiles mt-4 d-flex justify-content-center row">
+            <div class="position-relative img col-md-4 col-6 text-center" *ngFor="let item of filter">
+                <img height="180px" width="270" class="img-fluid front" src="{{ item.imgUrl }}">
+                <p class="text-center text-light">{{item.title}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <app-header #header></app-header> -->

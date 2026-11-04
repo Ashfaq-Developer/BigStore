@@ -1,0 +1,88 @@
+<div class="container">
+    <div class="d-flex justify-content-end my-5">
+        <div class="dropdown">
+            <button class="btn btn-light dropdown-toggle" type="button" id="mainDropdown" data-bs-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Filter
+            </button>
+            <div class="dropdown-menu p-3" aria-labelledby="mainDropdown">
+                <select class="form-select" aria-label="Default select example" (change)="changePerPageOption($event)">
+                    <option selected>Per Page:</option>
+                    <option value="1">10</option>
+                    <option value="2">20</option>
+                    <option value="3">30</option>
+                    <option value="4">50</option>
+                </select>
+                <select class="form-select filter-option my-2" aria-label="select example"
+                    (change)="changeSortByOption($event)">
+                    <option selected disabled>Sort By:</option>
+                    <option value="AtoZ">Name: A to Z</option>
+                    <option value="ZtoA">Name: Z to A</option>
+                    <option value="latest">Latest</option>
+                    <option value="oldest">Oldest</option>
+                </select>
+                <div class="d-grid gap-2 d-flex justify-content-space-between">
+                    <button class="btn btn-light" type="button" (click)="cancelFilter()">Cancel</button>
+                    <button class="btn btn-primary" type="button" (click)="applyFilter()">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="border">
+        <div class="col-3 p-2">
+            <div class="input-group">
+                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                    aria-describedby="search-addon" (input)="searchByName($event)" />
+                <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table border align-middle caption-top">
+            <thead>
+                <tr>
+                    <th scope="col">Code</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Sort Order</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Updated At</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="loading">
+                    <td colspan="5" class="text-center">
+                        <div class="spinner-border text-primary text-center" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngFor="let post of filteredPosts;">
+                    <td>{{ post.code }}</td>
+                    <td>
+                        <a class="text-dark text-decoration-none" [routerLink]="['/categories/list']" [queryParams]="{ pageSize: 1000, pageNumber: 1, groupId: post.id }">{{ post.name }}</a>
+                        <p>
+                            <span class="badge text-bg-primary me-2">Categories {{ post.numberOfCategories }}</span>
+                            <span class="badge text-bg-dark">Products {{post.numberOfProducts}}</span>
+                        </p>
+                    </td>
+                    <td>{{ post.sortOrder }}</td>
+                    <td>{{ moment(post.createdAt).fromNow() }}</td>
+                    <td>Last updated {{ moment(post.updatedAt).fromNow() }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link">Previous</a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">{{ this.data.pageNumber }}</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
